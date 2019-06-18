@@ -11,7 +11,7 @@ import oldBrowserCheck from './old-browsers';
 import languageSetup from './languages';
 import { createPlayer, playerDrivers, getPlayer, isVideoFormat } from './player/player';
 import { bindPlayerToUI, keyboardShortcutSetup } from './ui';
-import { activateTimestamps, insertTimestamp, convertTimestampToSeconds } from './timestamps';
+import { activateTimestamps, insertTimestamp, convertTimestampToSeconds, insertTimestampIntervals } from './timestamps';
 import { initBackup } from './backup';
 import { exportSetup } from './export';
 import importSetup from './import';
@@ -28,8 +28,10 @@ export default function init(){
 
     // this is necessary due to execCommand restrictions
     // see: http://stackoverflow.com/a/33321235
-    window.insertTimestamp = insertTimestamp;
-    
+    window.insertTimestamp = insertTimestamp
+    window.insertTimestampIntervals = insertTimestampIntervals
+
+
     keyboardShortcutSetup();
 
     viewController.set('about');
@@ -47,12 +49,12 @@ export default function init(){
             inputHide();
             viewController.set('editor');
             bindPlayerToUI();
-            let timestamp = otrQueryParams['t']; 
+            let timestamp = otrQueryParams['t'];
             if ( timestamp ){
                 // Is the timestamp in HH:MM::SS format?
                 if ( ~timestamp.indexOf(":") ){
                     timestamp = convertTimestampToSeconds(timestamp);
-                } 
+                }
                 player.driver._ytEl.seekTo(timestamp);
             }
         });
@@ -62,7 +64,7 @@ export default function init(){
         if ( localStorageManager.getItem("oT-lastfile") ) {
             viewController.set('editor');
         }
-        
+
     }
 
     $('.title').mousedown(() => {
@@ -104,7 +106,7 @@ function onLocalized() {
 		    });
         }
     });
-    
+
     watchWordCount();
 
     var startText = document.webL10n.get('start-ready');
@@ -115,7 +117,7 @@ function onLocalized() {
         .click(() => {
             viewController.set('editor');
         });
-    
+
     $('.reset').off().on('click', () => {
         const player = getPlayer();
         resetInput();
@@ -123,7 +125,7 @@ function onLocalized() {
             player.destroy();
         }
     });
-    
+
     oldBrowserCheck();
     // oT.input.loadPreviousFileDetails();
 }
@@ -135,5 +137,3 @@ $(window).resize(function() {
         document.getElementById('media').style.width = oT.media.videoWidth();
     }
 });
-
-

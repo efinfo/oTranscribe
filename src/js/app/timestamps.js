@@ -14,6 +14,19 @@ function getTime(){
     };
 };
 
+function getLength(){
+  const player = getPlayer();
+  let time = 0;
+  if(player){
+    time = player.getLength();
+  }
+
+  return {
+    formatted : formatMilliseconds(time),
+    raw: time
+  };
+}
+
 function formatMilliseconds(time) {
     const hours = Math.floor(time / 3600).toString();
     const minutes = ("0" + Math.floor(time / 60) % 60).slice(-2);
@@ -42,6 +55,23 @@ function insertHTML(newElement) {
     }
 }
 
+function insertTimestampIntervals(intervalSize){
+  //Intervals of size 10 seconds by default
+  let size = intervalSize ? intervalSize : 10;
+  let interval = 0.0;
+  const duration = getLength();
+
+  while(interval < (duration.raw - 10.00 )){
+    interval = interval + size;
+    let f_i = {formatted: formatMilliseconds(interval), raw: interval};
+    let space = document.createTextNode("\u00A0");
+    insertHTML(createTimestampEl(f_i));
+    insertHTML(space);
+    let nl = document.createElement('br');
+    insertHTML(nl);
+    activateTimestamps();
+  }
+}
 
 function insertTimestamp(){
     var time = getTime();
@@ -80,7 +110,7 @@ function onClick() {
         } else {
             player.setTime( time );
         }
-    }    
+    }
 }
 
 // backwards compatibility, as old timestamps use setFromTimestamp() and ts.setFrom()
@@ -105,4 +135,4 @@ function convertTimestampToSeconds(hms) {
     return (+a[0]) * 60 + (+a[1]);
 }
 
-export {activateTimestamps, insertTimestamp, convertTimestampToSeconds, formatMilliseconds};
+export {activateTimestamps, insertTimestamp, convertTimestampToSeconds, formatMilliseconds, insertTimestampIntervals};
