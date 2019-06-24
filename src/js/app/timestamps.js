@@ -61,8 +61,7 @@ function insertTimestampIntervals(intervalSize){
   let interval = 0.0;
   const duration = getLength();
 
-  while(interval < (duration.raw - 10.00 )){
-    interval = interval + size;
+  while (interval <= (duration.raw - 10.00 )) {
     let f_i = {formatted: formatMilliseconds(interval), raw: interval};
     let space = document.createTextNode("\u00A0");
     insertHTML(createTimestampEl(f_i));
@@ -70,6 +69,7 @@ function insertTimestampIntervals(intervalSize){
     let nl = document.createElement('br');
     insertHTML(nl);
     activateTimestamps();
+    interval = interval + size;
   }
 }
 

@@ -11,6 +11,12 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'   // Really, you want to upload index.htm and assets/bundle.js
   },
+  resolve: {
+    alias: {
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat'
+    }
+  },
   module: {
     loaders: [
       {
@@ -21,7 +27,7 @@ module.exports = {
           cacheDirectory: true,
           presets: ['es2015', 'stage-2']
         }
-          
+
       },
       // This nifty bit of magic right here allows us to load entire JSON files
       // synchronously using `require`, just like in NodeJS.
@@ -33,9 +39,9 @@ module.exports = {
       {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract(['css-loader','sass-loader'])
-          
+
       }
-      
+
     ]
   },
   // Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
