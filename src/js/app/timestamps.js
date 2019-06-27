@@ -1,4 +1,6 @@
 import {getPlayer} from './player/player';
+import {showSubtitle} from './subtitle.jsx';
+const $ = require('jquery');
 
 function getTime(){
     // get timestamp
@@ -55,22 +57,34 @@ function insertHTML(newElement) {
     }
 }
 
+function setSubtitle(rows, columns){
+  const textbox = document.getElementById('textbox');
+  $(this).text(showSubtitle(textbox, rows, columns));
+}
+
 function insertTimestampIntervals(intervalSize){
   //Intervals of size 10 seconds by default
   let size = intervalSize ? intervalSize : 10;
   let interval = 0.0;
   const duration = getLength();
+  let rows = [];
+  const columns = [
+    { key: "timestamp", name: "timestamp", editable: false },
+    { key: "subtitle", name: "Subtitle", editable: true }
+  ];
 
   while (interval <= (duration.raw - 10.00 )) {
     let f_i = {formatted: formatMilliseconds(interval), raw: interval};
-    let space = document.createTextNode("\u00A0");
-    insertHTML(createTimestampEl(f_i));
-    insertHTML(space);
-    let nl = document.createElement('br');
-    insertHTML(nl);
-    activateTimestamps();
+    //let space = document.createTextNode("\u00A0");
+    //insertHTML(createTimestampEl(f_i));
+    rows.push({timestamp: createTimestampEl(f_i).innerText, subtitle: ''});
+    //insertHTML(space);
+    //let nl = document.createElement('br');
+    //insertHTML(nl);
     interval = interval + size;
   }
+  setSubtitle(rows, columns);
+  activateTimestamps();
 }
 
 function insertTimestamp(){

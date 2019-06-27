@@ -33,7 +33,7 @@ export default function init(){
 
 
     keyboardShortcutSetup();
-    setSubtitle();
+    //setSubtitle();
 
     viewController.set('about');
 

@@ -9,7 +9,6 @@ import { getPlayer } from './player/player';
 import { insertTimestamp } from './timestamps';
 import timeSelectionModal from './time-selection-modal';
 import { getSettings } from './settings/settings.jsx';
-import {showSubtitle} from './subtitle';
 
 export function bindPlayerToUI(filename = '') {
 
@@ -170,9 +169,4 @@ function setKeyboardShortcutsinUI() {
         const shortcut = $(this).attr('data-shortcut');
         $(this).text(getFormattedShortcutFor(shortcut, shortcuts));
     });
-}
-
-export function setSubtitle(){
-  const textbox = document.getElementById('textbox');
-  $(this).text(showSubtitle(textbox));
 }
