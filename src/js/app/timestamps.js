@@ -2,6 +2,15 @@ import {getPlayer} from './player/player';
 import {showSubtitle} from './subtitle.jsx';
 const $ = require('jquery');
 
+import {
+  h,
+  render,
+  Component
+} from 'preact';
+import ReactDOM from 'react-dom';
+import ReactDataGrid from 'react-data-grid';
+import React from 'react';
+
 function getTime(){
     // get timestamp
     const player = getPlayer();
@@ -57,6 +66,18 @@ function insertHTML(newElement) {
     }
 }
 
+var Timestamp = React.createClass({
+    render: function() {
+      let ts = this.props.tm;
+      return <span class="timestamp" contenteditable="false" data-timestamp={`${ts.raw}`}> {ts.formatted}</span>;
+    }
+});
+
+
+function timestampFormatter({value}){
+   return <Timestamp tm={value}/>
+}
+
 function setSubtitle(rows, columns){
   const textbox = document.getElementById('textbox');
   $(this).text(showSubtitle(textbox, rows, columns));
@@ -69,7 +90,7 @@ function insertTimestampIntervals(intervalSize){
   const duration = getLength();
   let rows = [];
   const columns = [
-    { key: "timestamp", name: "timestamp", editable: false },
+    { key: "timestamp", name: "timestamp", editable: false, formatter: timestampFormatter},
     { key: "subtitle", name: "Subtitle", editable: true }
   ];
 
@@ -77,7 +98,7 @@ function insertTimestampIntervals(intervalSize){
     let f_i = {formatted: formatMilliseconds(interval), raw: interval};
     //let space = document.createTextNode("\u00A0");
     //insertHTML(createTimestampEl(f_i));
-    rows.push({timestamp: createTimestampEl(f_i).innerText, subtitle: ''});
+    rows.push({timestamp: f_i, subtitle: ''});
     //insertHTML(space);
     //let nl = document.createElement('br');
     //insertHTML(nl);
