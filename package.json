@@ -45,6 +45,8 @@
     "progressor.js": "git://github.com/ejb/progressor.js.git",
     "react-data-grid": "^6.1.0",
     "sanitize-html": "^1.13.0",
+    "socket.io-client": "^2.2.0",
+    "socket.io-stream": "^0.9.1",
     "to-markdown": "^3.0.3",
     "webl10n": "^1.0.0"
   },

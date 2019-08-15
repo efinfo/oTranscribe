@@ -59,5 +59,8 @@ module.exports = {
       new HtmlWebpackPlugin({
           template: 'html-loader?interpolate&attrs=img:data-src!./src/index.htm'
       })
-  ]
+  ],
+  node: {
+    fs: 'empty'
+  }
 };

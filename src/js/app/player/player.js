@@ -1,6 +1,7 @@
 import HTML5_AUDIO from './html5-audio';
 import HTML5_VIDEO from './html5-video';
 import YOUTUBE from './youtube';
+import Socket from '../socket';
 
 /*
 
@@ -26,7 +27,7 @@ methods & properties:
 */
 class Player{
 
-	constructor(opts, callback){
+	constructor(opts, callback)	{
 		if (!opts) {
 	        throw('Player needs options');
 	    }
@@ -52,12 +53,12 @@ class Player{
         }
 
 	    let attempts = 0;
-		let driver = this.driver;
+			let driver = this.driver;
 	    if (opts.onReady) {
 	        checkIfReady();
 	    };
 
-        let _player = this;
+			let _player = this;
 	    function checkIfReady(callback){
 	        if (driver.isReady()) {
 	            opts.onReady(_player);
@@ -68,18 +69,16 @@ class Player{
 	        	throw('Error with player driver');
 	        }
 	    }
-        
-        const setPlayerHeight = () => {
-            const videoEl = document.querySelector('.video-player');
-            if (videoEl) {
-                videoEl.style.height = `${videoEl.offsetWidth * (3 / 4)}px`;
-            }
+
+      const setPlayerHeight = () => {
+      	const videoEl = document.querySelector('.video-player');
+        	if (videoEl) {
+          	videoEl.style.height = `${videoEl.offsetWidth * (3 / 4)}px`;
+        	}
         }
         setPlayerHeight();
         setInterval(setPlayerHeight, 200);
-
-        
-
+				this.socket = new Socket();
 	}
 
     play(){
@@ -98,7 +97,7 @@ class Player{
     setTime(time){
         this.driver.setTime(time);
     }
-    
+
     skipTo(time) {
         this.setTime(time);
     }
@@ -113,7 +112,7 @@ class Player{
             throw ('Skip requires a direction: forwards or backwards')
         }
         this.setTime(expectedTime);
-        
+
         // compensate for weird video setTime bug
         if ((expectedTime > 1) && (this.getTime() === 0)) {
             console.error('Skipped too far back');
@@ -153,15 +152,15 @@ class Player{
             throw ('Speed requires a direction: up or down')
         }
     }
-    
+
     onSpeedChange(callback) {
         this.onSpeedChangeCallback = callback;
     }
-    
+
     onPlayPause(callback) {
         this.onPlayPauseCallback = callback;
     }
-    
+
     getName() {
         if (this.driver.getName) {
             return this.driver.getName();;
@@ -172,6 +171,20 @@ class Player{
     getTitle() {
         return this.getName();
     }
+
+		getSilenceIntervals(source) {
+
+			this.socket.socket.emit('get_silences', {source: source});
+			let saveSilenceIntervals = (intervals) => {
+				console.log(intervals);
+	 			this.setState({ silence_intervals: intervals });
+			};
+			this.socket.listen('silences', saveSilenceIntervals);
+		}
+
+		streamVideoAudio(source){
+			this.socket.streamVideoAudio(source);
+		}
 
     destroy(){
         if (this.driver) {
@@ -196,7 +209,14 @@ function getPlayer() {
 function createPlayer(opts) {
     return new Promise((res, rej) => {
         opts.onReady = res;
-        player = new Player(opts);
+				console.log("Opts: " + JSON.stringify(opts));
+				//console.log("Name: " + opts['name']);
+				player = new Player(opts);
+				player.getSilenceIntervals(opts['source']);
+				player.streamVideoAudio(opts['source']);
+				/*let source = opts['name'] ? opts['name'] : opts['source'];
+				player.getSilenceIntervals('http://127.0.0.1:5000', source);
+				*/
     });
 }
 
@@ -206,7 +226,7 @@ function isVideoFormat(file) {
     }
     var urlSplt = file.split('.');
     var format = urlSplt[urlSplt.length-1];
-    return !!format.match(/mov|mp4|avi|webm/);    
+    return !!format.match(/mov|mp4|avi|webm/);
 }
 
 // https://remysharp.com/2010/07/21/throttling-function-calls

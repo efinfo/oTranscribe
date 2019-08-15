@@ -58,7 +58,7 @@ export default function init(){
                 }
                 player.driver._ytEl.seekTo(timestamp);
             }
-        });
+          });
 
     } else {
 
@@ -89,14 +89,15 @@ export default function init(){
 function onLocalized() {
     const resetInput = inputSetup({
         create: file => {
-            const driver = isVideoFormat(file) ? playerDrivers.HTML5_VIDEO : playerDrivers.HTML5_AUDIO;
-		    createPlayer({
-		        driver: driver,
-		        source: window.URL.createObjectURL(file),
+          const driver = isVideoFormat(file) ? playerDrivers.HTML5_VIDEO : playerDrivers.HTML5_AUDIO;
+		        createPlayer({
+		            driver: driver,
+		            source: window.URL.createObjectURL(file),
                 name: file.name
-		    }).then(() => {
+		            }).then(() => {
                 bindPlayerToUI(file.name);
-		    });
+                
+		        });
         },
         createFromURL: url => {
 		    createPlayer({
