@@ -171,18 +171,7 @@ class Player{
     getTitle() {
         return this.getName();
     }
-
-		getSilenceIntervals(filename) {
-			let socket = new Socket();
-			console.log("Emitting detect-silences of ", filename);
-			socket.socket.emit('detect-silences', {filename: filename});
-			let saveSilenceIntervals = (intervals) => {
-				console.log(intervals);
-	 			this.setState({ silence_intervals: intervals });
-			};
-			socket.listen('silences', saveSilenceIntervals);
-		}
-
+		
     destroy(){
         if (this.driver) {
             this.pause();
