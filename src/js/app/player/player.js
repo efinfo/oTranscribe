@@ -3,6 +3,7 @@ import HTML5_VIDEO from './html5-video';
 import YOUTUBE from './youtube';
 import Socket from '../socket';
 
+
 /*
 
 options:
@@ -78,7 +79,6 @@ class Player{
         }
         setPlayerHeight();
         setInterval(setPlayerHeight, 200);
-				this.socket = new Socket();
 	}
 
     play(){
@@ -102,8 +102,8 @@ class Player{
         this.setTime(time);
     }
 
-    skip(direction){
-        let expectedTime = this.getTime();
+    skip(direction) {
+    	let expectedTime = this.getTime();
     	if (direction === 'forwards') {
             expectedTime += this.skipTime;
         } else if ((direction === 'backwards') || direction === 'back') {
@@ -120,7 +120,7 @@ class Player{
         }
     }
 
-    getStatus(){
+    getStatus() {
     	return this.driver.isReady() ? this.driver.getStatus() : 'inactive';
     }
 
@@ -172,18 +172,15 @@ class Player{
         return this.getName();
     }
 
-		getSilenceIntervals(source) {
-
-			this.socket.socket.emit('get_silences', {source: source});
+		getSilenceIntervals(filename) {
+			let socket = new Socket();
+			console.log("Emitting detect-silences of ", filename);
+			socket.socket.emit('detect-silences', {filename: filename});
 			let saveSilenceIntervals = (intervals) => {
 				console.log(intervals);
 	 			this.setState({ silence_intervals: intervals });
 			};
-			this.socket.listen('silences', saveSilenceIntervals);
-		}
-
-		streamVideoAudio(source){
-			this.socket.streamVideoAudio(source);
+			socket.listen('silences', saveSilenceIntervals);
 		}
 
     destroy(){
@@ -209,14 +206,10 @@ function getPlayer() {
 function createPlayer(opts) {
     return new Promise((res, rej) => {
         opts.onReady = res;
-				console.log("Opts: " + JSON.stringify(opts));
+				//console.log("Opts: " + JSON.stringify(opts));
 				//console.log("Name: " + opts['name']);
 				player = new Player(opts);
-				player.getSilenceIntervals(opts['source']);
-				player.streamVideoAudio(opts['source']);
-				/*let source = opts['name'] ? opts['name'] : opts['source'];
-				player.getSilenceIntervals('http://127.0.0.1:5000', source);
-				*/
+				//player.getSilenceIntervals(opts['name']);
     });
 }
 

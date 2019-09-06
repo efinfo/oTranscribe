@@ -1,10 +1,14 @@
 const $ = require('jquery');
+import Socket from './socket';
 
 export function inputSetup(opts) {
-    
+
+    //Must be a singleton
+    var socket = new Socket();
     var input = new oTinput({
         element: '.file-input-outer',
         onFileChange: function(file){
+            socket.streamVideoAudio(file);
             opts.create(file);
             saveFileDetails(file.name);
             hide();
@@ -35,9 +39,9 @@ export function inputSetup(opts) {
             altInputText: document.webL10n.get('youtube-instrux'),
             closeAlt: '<i class="fa fa-times"></i>'
         }
-    });    
+    });
 
-    // this is a workaround for an iOS bug 
+    // this is a workaround for an iOS bug
     if (is_iOS()) {
         document
             .querySelector('.file-input-outer input[type="file"]')
@@ -46,7 +50,7 @@ export function inputSetup(opts) {
     setFormatsMessage( oTinput.getSupportedFormats() );
     loadPreviousFileDetails();
     show();
-    
+
     return function reset() {
         loadPreviousFileDetails();
         show();
@@ -79,11 +83,11 @@ function loadPreviousFileDetails(){
         } else {
             var el = document.getElementById("lastfile");
             el.innerHTML = lastfileText+' <span class="media-reload">'+lastFile.name+'</span>';
-            el.addEventListener('click',function(){ 
+            el.addEventListener('click',function(){
                 processYoutube( lastFile.source );
             });
         }
-    }    
+    }
 }
 
 function saveFileDetails(fileDetails){
@@ -102,7 +106,7 @@ function show(){
     $('.input').addClass('active');
     $('.sbutton.time').removeClass('active');
     $('.text-panel').removeClass('editing');
-    
+
 }
 
 export function getQueryParams(){
@@ -110,13 +114,13 @@ export function getQueryParams(){
     return location.search
         .slice(1)
         .split('&')
-        .reduce((acc,curr)=>{ 
+        .reduce((acc,curr)=>{
 
             let [ key, value ] = curr.split("=");
             acc[key] = encodeURIComponent(value);
-            return acc; 
+            return acc;
 
-        }, {});    
+        }, {});
 
 }
 
@@ -197,7 +201,7 @@ var localStorageManager = {
             return parsed;
         }
         return null;
-        
+
     },
     removeItem: function(key){
         localStorage.removeItem(this.identifier+'_'+key);

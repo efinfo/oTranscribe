@@ -96,7 +96,6 @@ function onLocalized() {
                 name: file.name
 		            }).then(() => {
                 bindPlayerToUI(file.name);
-                
 		        });
         },
         createFromURL: url => {
