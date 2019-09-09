@@ -19,27 +19,27 @@ function init(){
     setInterval(function(){
         saveBackup();
     },300000 /* 5 minutes */);
-    
-    
+
+
     $('.sbutton.backup').click(function(){
         openPanel();
     });
-        
+
     $('.backup-close').click(function(){
         closePanel();
     });
     addKeyboardShortcut('mod+s', () => saveBackup());
-    
+
 }
 
 // original autosave function
 function autosaveInit(){
     var field = document.querySelector("#textbox");
-    
+
     // load existing autosave (if present)
     try {
         const autosaveContents = localStorageManager.getItem("autosave");
-        if (autosaveContents) {        
+        if (autosaveContents) {
            setEditorContents( localStorageManager.getItem("autosave") );
         }
     } catch (e) {
@@ -63,7 +63,7 @@ function autosaveInit(){
 
 function migrateToLocalStorageManager(){
     // May 2015 - migration to localStorageManager
-    if ( localStorage.getItem("autosave")) {        
+    if ( localStorage.getItem("autosave")) {
        localStorageManager.setItem("autosave", localStorage.getItem("autosave") );
     }
     var backupList = [];
@@ -92,7 +92,7 @@ function warnAboutBackupFailure(){
 function closePanel(){
     $('.backup-panel').fadeOut('fast',function(){
         $('.backup-window').empty();
-        
+
     });
 }
 
@@ -115,10 +115,10 @@ function formatDate(timestamp){
     }
     var time = d.getHours() + ':';
     if (d.getMinutes() < 10) {
-        time += '0';        
+        time += '0';
     }
     time += d.getMinutes();
-    
+
     const formattedDate = day + ' ' + time;
     return formattedDate;
 }
@@ -142,7 +142,7 @@ function generateBlock(ref){
     var text = obj.value;
     var timestamp = obj.timestamp;
     var date = formatDate(timestamp);
-    
+
     var block = document.createElement('div');
     var doc = document.createElement('div');
     var restoreButton = document.createElement('div');
@@ -157,10 +157,10 @@ function generateBlock(ref){
     $(restoreButton).find('span[data-restore]').click(function() {
         restoreBackup( this.dataset.restore );
     });
-    
+
     block.appendChild(doc);
     block.appendChild(restoreButton);
-    
+
     return block;
 }
 
@@ -188,8 +188,8 @@ function addDocsToPanel(start,end){
         var loadMoreText = document.webL10n.get('more-backups');
         const moreBackupsEl = $(`
             <div class="more-backups"
-                data-start=${end} 
-                data-end=${end+8} 
+                data-start=${end}
+                data-end=${end+8}
             >
                 ${loadMoreText}
             </div>
@@ -198,7 +198,7 @@ function addDocsToPanel(start,end){
             const {start, end} = this.dataset;
             addDocsToPanel(start, end);
         });
-        
+
         $('.backup-window').append( moreBackupsEl );
     }
 }

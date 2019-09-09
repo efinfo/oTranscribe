@@ -10,7 +10,7 @@ import { inputSetup, getQueryParams, hide as inputHide } from './input';
 import oldBrowserCheck from './old-browsers';
 import languageSetup from './languages';
 import { createPlayer, playerDrivers, getPlayer, isVideoFormat } from './player/player';
-import { bindPlayerToUI, keyboardShortcutSetup, setSubtitle} from './ui';
+import { bindPlayerToUI, keyboardShortcutSetup} from './ui';
 import { activateTimestamps, insertTimestamp, convertTimestampToSeconds, insertTimestampIntervals } from './timestamps';
 import { initBackup } from './backup';
 import { exportSetup } from './export';
@@ -33,7 +33,6 @@ export default function init(){
 
 
     keyboardShortcutSetup();
-    //setSubtitle();
 
     viewController.set('about');
 

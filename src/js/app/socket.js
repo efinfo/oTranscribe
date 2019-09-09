@@ -1,8 +1,10 @@
-var io = require('socket.io-client');
-var ss = require('socket.io-stream');
-var fs = require('fs');
+const io = require('socket.io-client');
+const ss = require('socket.io-stream');
+const localStorageManager = require('local-storage-manager');
+const fs = require('fs');
 
 const SERVER_SOCKET = 'http://127.0.0.1:3000';
+
 class Socket{
   constructor(server){
     if(!!Socket.instance){
@@ -21,7 +23,7 @@ class Socket{
     this.socket.emit('detect-silences', {filename: filename});
     let saveSilenceIntervals = (intervals) => {
       console.log(intervals);
-      this.setState({ silence_intervals: intervals });
+      localStorageManager.setItem('silence_intervals', intervals );
     };
     this.listen('silences', saveSilenceIntervals);
   }
