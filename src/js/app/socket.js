@@ -19,13 +19,13 @@ class Socket{
     this.socket.on(event, cb);
   }
 
-  getSilenceIntervals(filename){
-    this.socket.emit('detect-silences', {filename: filename});
-    let saveSilenceIntervals = (intervals) => {
+  getNonSilentIntervals(filename){
+    this.socket.emit('detect-nonsilent', {filename: filename});
+    let saveNonSilentIntervals = (intervals) => {
       console.log(intervals);
-      localStorageManager.setItem('silence_intervals', intervals );
+      localStorageManager.setItem('nonsilent-intervals', intervals );
     };
-    this.listen('silences', saveSilenceIntervals);
+    this.listen('nonsilent', saveNonSilentIntervals);
   }
 
   streamVideoAudio(file){
@@ -45,7 +45,7 @@ class Socket{
       console.log(percentage + '%');
       if(percentage == 100){
         console.log("Finished");
-        this.getSilenceIntervals(filename);
+        this.getNonSilentIntervals(filename);
       }
       // -> e.g. '42%'
     });

@@ -1,6 +1,7 @@
 import {getPlayer} from './player/player';
 import {showSubtitle} from './subtitle.jsx';
 const $ = require('jquery');
+const localStorageManager = require('local-storage-manager');
 
 import {
   h,
@@ -39,9 +40,10 @@ function getLength(){
 }
 
 function formatMilliseconds(time) {
-    const hours = Math.floor(time / 3600).toString();
-    const minutes = ("0" + Math.floor(time / 60) % 60).slice(-2);
-    const seconds = ("0" + Math.floor( time % 60 )).slice(-2);
+    const timeSeconds = Math.floor(time / 1000);
+    const hours = Math.floor(timeSeconds / 3600).toString();
+    const minutes = ("0" + Math.floor(timeSeconds / 60) % 60).slice(-2);
+    const seconds = ("0" + Math.floor( timeSeconds % 60 )).slice(-2);
     let formatted = minutes+":"+seconds;
     if (hours !== '0') {
         formatted = hours + ":" + minutes + ":" + seconds;
@@ -83,27 +85,26 @@ function setSubtitle(rows, columns){
   $(this).text(showSubtitle(textbox, rows, columns));
 }
 
-function insertTimestampIntervals(intervalSize){
-  //Intervals of size 10 seconds by default
-  let size = intervalSize ? intervalSize : 10;
-  let interval = 0.0;
-  const duration = getLength();
+function getNonSilentIntervals(){
+  let intervals = (localStorageManager.getItem('nonsilent-intervals'))['nonsilent'][0];
+  return intervals;
+}
+
+function insertTimestampIntervals(){
+
   let rows = [];
   const columns = [
     { key: "timestamp", name: "timestamp", editable: false, formatter: timestampFormatter},
     { key: "subtitle", name: "Subtitle", editable: true }
   ];
 
-  while (interval <= (duration.raw - 10.00 )) {
-    let f_i = {formatted: formatMilliseconds(interval), raw: interval};
-    //let space = document.createTextNode("\u00A0");
-    //insertHTML(createTimestampEl(f_i));
+  let nonSilentIntervals = getNonSilentIntervals();
+  console.log("nonSilentIntervals: ", nonSilentIntervals);
+  nonSilentIntervals.forEach( interval => {
+    let f_i = {formatted: formatMilliseconds(interval[0]), raw: Math.floor(interval[0]/1000)};
     rows.push({timestamp: f_i, subtitle: ''});
-    //insertHTML(space);
-    //let nl = document.createElement('br');
-    //insertHTML(nl);
-    interval = interval + size;
-  }
+  });
+
   setSubtitle(rows, columns);
   activateTimestamps();
 }
