@@ -103,7 +103,7 @@ function insertTimestampIntervals(){
   console.log("nonSilentIntervals: ", nonSilentIntervals);
   nonSilentIntervals.forEach( interval => {
     let f_b = {formatted: formatMilliseconds(interval[0]), raw: Math.floor(interval[0]/1000)};
-    let f_e = {formatted: formatMilliseconds(interval[1]), raw: Math.floor(interval[0]/1000)};
+    let f_e = {formatted: formatMilliseconds(interval[1]), raw: Math.floor(interval[1]/1000)};
     rows.push({timestamp_begin: f_b, timestamp_end: f_e, subtitle: ''});
   });
 
