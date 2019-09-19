@@ -94,15 +94,17 @@ function insertTimestampIntervals(){
 
   let rows = [];
   const columns = [
-    { key: "timestamp", name: "timestamp", editable: false, formatter: timestampFormatter},
+    { key: "timestamp_begin", name: "timestamp_begin", editable: false, formatter: timestampFormatter},
+    { key: "timestamp_end", name: "timestamp_end", editable: false, formatter: timestampFormatter},
     { key: "subtitle", name: "Subtitle", editable: true }
   ];
 
   let nonSilentIntervals = getNonSilentIntervals();
   console.log("nonSilentIntervals: ", nonSilentIntervals);
   nonSilentIntervals.forEach( interval => {
-    let f_i = {formatted: formatMilliseconds(interval[0]), raw: Math.floor(interval[0]/1000)};
-    rows.push({timestamp: f_i, subtitle: ''});
+    let f_b = {formatted: formatMilliseconds(interval[0]), raw: Math.floor(interval[0]/1000)};
+    let f_e = {formatted: formatMilliseconds(interval[1]), raw: Math.floor(interval[0]/1000)};
+    rows.push({timestamp_begin: f_b, timestamp_end: f_e, subtitle: ''});
   });
 
   setSubtitle(rows, columns);
