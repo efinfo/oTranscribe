@@ -33,6 +33,7 @@
     "webpack-dev-server": "^2.0.0-beta"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "jakecache": "git+https://github.com/kenchris/jakecache.git",
     "jquery": "^3.1.0",
     "keycode": "^2.1.8",
@@ -44,6 +45,7 @@
     "progressor": "git://github.com/ejb/progressor.js.git",
     "progressor.js": "git://github.com/ejb/progressor.js.git",
     "react-data-grid": "^6.1.0",
+    "react-dropzone": "^10.1.9",
     "sanitize-html": "^1.13.0",
     "socket.io-client": "^2.2.0",
     "socket.io-stream": "^0.9.1",

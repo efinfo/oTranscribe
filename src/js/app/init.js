@@ -15,6 +15,7 @@ import { activateTimestamps, insertTimestamp, convertTimestampToSeconds, insertT
 import { initBackup } from './backup';
 import { exportSetup } from './export';
 import importSetup from './import';
+import {uploadSetup} from './file-upload.jsx';
 import viewController from './view-controller';
 
 export default function init(){
@@ -25,6 +26,7 @@ export default function init(){
     exportSetup();
     importSetup();
     initAutoscroll();
+    uploadSetup();
 
     // this is necessary due to execCommand restrictions
     // see: http://stackoverflow.com/a/33321235

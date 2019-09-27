@@ -9,7 +9,6 @@ import ReactDataGrid from 'react-data-grid';
 class Subtitle extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       rows: props.rows,
       columns: props.columns
