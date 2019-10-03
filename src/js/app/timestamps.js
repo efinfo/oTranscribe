@@ -94,9 +94,9 @@ function insertTimestampIntervals(){
 
   let rows = [];
   const columns = [
-    { key: "timestamp_begin", name: "timestamp_begin", editable: false, formatter: timestampFormatter},
-    { key: "timestamp_end", name: "timestamp_end", editable: false, formatter: timestampFormatter},
-    { key: "subtitle", name: "Subtitle", editable: true }
+    { key: "timestamp_begin", name: "timestamp_begin", editable: false, width: "25%", formatter: timestampFormatter},
+    { key: "timestamp_end", name: "timestamp_end", editable: false, width: "25%", formatter: timestampFormatter},
+    { key: "subtitle", name: "Subtitle", editable: true, width: "50%" }
   ];
 
   let nonSilentIntervals = getNonSilentIntervals();
