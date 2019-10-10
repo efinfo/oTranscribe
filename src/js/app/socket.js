@@ -28,6 +28,14 @@ class Socket{
     this.listen('nonsilent', saveNonSilentIntervals);
   }
 
+  splitInChunks(filename){
+    this.socket.emit('split-in-chunks', {filename: filename});
+    let transcribeChunks = () => {
+      this.socket.emit('transcribe-chunks');
+    }
+    this.listen('chunks', transcribeChunks);
+  }
+
   streamVideoAudio(file){
     console.log("streaming video...", file);
     console.log("this.socket", this.socket);
@@ -46,6 +54,8 @@ class Socket{
       if(percentage == 100){
         console.log("Finished");
         this.getNonSilentIntervals(filename);
+        this.splitInChunks(filename);
+        //this.transcribeChunks();
       }
       // -> e.g. '42%'
     });
