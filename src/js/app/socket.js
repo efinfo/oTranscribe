@@ -28,10 +28,20 @@ class Socket{
     this.listen('nonsilent', saveNonSilentIntervals);
   }
 
+  setTranscriptionChunks(){
+    let setTranscription = (transcriptions) => {
+      console.log("I heard 'transcriptions'",transcriptions);
+      localStorageManager.setItem('transcriptions', transcriptions);
+    }
+    this.listen('transcriptions', setTranscription);
+  }
+
+
   splitInChunks(filename){
     this.socket.emit('split-in-chunks', {filename: filename});
     let transcribeChunks = () => {
       this.socket.emit('transcribe-chunks');
+      this.setTranscriptionChunks();
     }
     this.listen('chunks', transcribeChunks);
   }
@@ -53,7 +63,7 @@ class Socket{
       console.log(percentage + '%');
       if(percentage == 100){
         console.log("Finished");
-        this.getNonSilentIntervals(filename);
+        //this.getNonSilentIntervals(filename);
         this.splitInChunks(filename);
         //this.transcribeChunks();
       }

@@ -90,6 +90,11 @@ function getNonSilentIntervals(){
   return intervals;
 }
 
+function getTranscriptions(){
+  let transcriptions = (localStorageManager.getItem('transcriptions'));
+  return transcriptions;
+}
+
 function insertTimestampIntervals(){
 
   let rows = [];
@@ -99,13 +104,45 @@ function insertTimestampIntervals(){
     { key: "subtitle", name: "Subtitle", editable: true, width: "50%" }
   ];
 
-  let nonSilentIntervals = getNonSilentIntervals();
-  console.log("nonSilentIntervals: ", nonSilentIntervals);
+  //let nonSilentIntervals = getNonSilentIntervals();
+  let transcriptions = getTranscriptions();
+
+  //console.log("nonSilentIntervals: ", nonSilentIntervals);
+  console.log("transcriptions: ", transcriptions);
+
+  let subtitles = [];
+
+  for(let i = 0; i < transcriptions.length - 1; i++){
+    let current = transcriptions[i];
+    let re1 = /Transcript\:/;
+    if(re1.exec(current)){
+      let transcription = current.split("Transcript: ")[1];
+      current = transcriptions[++i];
+      let ts = current.split('Time: ')[1];
+      let re = /[0-9]{1,}\.[0-9]{1,}/;
+      let res = re.exec(ts);
+      if(res){
+        ts = parseFloat(res[0]);
+        console.log(ts);
+      }else{
+        ts = 0;
+      }
+      let s = {
+        timestamp_begin: {formatted: formatMilliseconds(ts), raw: Math.floor(ts/1000)},
+        timestamp_end: {formatted: '', raw: ''},
+        subtitle: transcription
+      };
+      rows.push(s);
+    }
+  }
+
+  /*
   nonSilentIntervals.forEach( interval => {
     let f_b = {formatted: formatMilliseconds(interval[0]), raw: Math.floor(interval[0]/1000)};
     let f_e = {formatted: formatMilliseconds(interval[1]), raw: Math.floor(interval[1]/1000)};
     rows.push({timestamp_begin: f_b, timestamp_end: f_e, subtitle: ''});
   });
+  */
 
   setSubtitle(rows, columns);
   activateTimestamps();
