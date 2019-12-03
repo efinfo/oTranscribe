@@ -72,6 +72,16 @@ class Socket{
 
     blobStream.pipe(stream);
   }
+
+  googleTranscribeAsync(filename){
+    console.log("Emitting google-transcribe-async", filename);
+    this.socket.emit('google-transcribe-async', {filename: filename});
+    //let transcribeChunks = () => {
+      //this.socket.emit('transcribe-chunks');
+      //this.setTranscriptionChunks();
+    //}
+  }
+
 };
 
 module.exports = Socket;

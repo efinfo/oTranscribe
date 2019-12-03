@@ -17,6 +17,7 @@ import { exportSetup } from './export';
 import importSetup from './import';
 import {uploadSetup} from './file-upload.jsx';
 import viewController from './view-controller';
+import {getFilesInBucket} from './transcription';
 
 export default function init(){
     initBackup();
@@ -30,9 +31,9 @@ export default function init(){
 
     // this is necessary due to execCommand restrictions
     // see: http://stackoverflow.com/a/33321235
-    window.insertTimestamp = insertTimestamp
-    window.insertTimestampIntervals = insertTimestampIntervals
-
+    window.insertTimestamp = insertTimestamp;
+    window.insertTimestampIntervals = insertTimestampIntervals;
+    window.getFilesInBucket = getFilesInBucket;
 
     keyboardShortcutSetup();
 
