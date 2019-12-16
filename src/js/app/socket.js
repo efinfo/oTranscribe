@@ -80,6 +80,11 @@ class Socket{
       //this.socket.emit('transcribe-chunks');
       //this.setTranscriptionChunks();
     //}
+    let setTranscription = (transcriptions) => {
+      console.log("I heard 'transcriptions'",transcriptions);
+      localStorageManager.setItem('transcriptions', transcriptions);
+    }
+    this.listen('transcriptions', setTranscription);
   }
 
 };

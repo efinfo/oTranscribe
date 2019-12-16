@@ -11,13 +11,19 @@ import oldBrowserCheck from './old-browsers';
 import languageSetup from './languages';
 import { createPlayer, playerDrivers, getPlayer, isVideoFormat } from './player/player';
 import { bindPlayerToUI, keyboardShortcutSetup} from './ui';
-import { activateTimestamps, insertTimestamp, convertTimestampToSeconds, insertTimestampIntervals } from './timestamps';
+import {
+  activateTimestamps,
+  insertTimestamp,
+  convertTimestampToSeconds,
+  insertTimestampIntervals,
+  setGoogleTranscription
+} from './timestamps';
 import { initBackup } from './backup';
 import { exportSetup } from './export';
 import importSetup from './import';
 import {uploadSetup} from './file-upload.jsx';
 import viewController from './view-controller';
-import {getFilesInBucket} from './transcription';
+import {getFilesInBucket, transcribeVideoAudio} from './transcription';
 
 export default function init(){
     initBackup();
@@ -34,6 +40,8 @@ export default function init(){
     window.insertTimestamp = insertTimestamp;
     window.insertTimestampIntervals = insertTimestampIntervals;
     window.getFilesInBucket = getFilesInBucket;
+    window.transcribeVideoAudio = transcribeVideoAudio;
+    window.setGoogleTranscription = setGoogleTranscription;
 
     keyboardShortcutSetup();
 

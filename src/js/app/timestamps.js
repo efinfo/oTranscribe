@@ -1,5 +1,8 @@
 import {getPlayer} from './player/player';
 import {showSubtitle} from './subtitle.jsx';
+import viewController from './view-controller';
+import {setEditorContents} from './texteditor';
+
 const $ = require('jquery');
 const localStorageManager = require('local-storage-manager');
 
@@ -83,6 +86,17 @@ function timestampFormatter({value}){
 function setSubtitle(rows, columns){
   const textbox = document.getElementById('textbox');
   $(this).text(showSubtitle(textbox, rows, columns));
+}
+
+function setGoogleTranscription(){
+  let transcriptionText = getTranscriptions();
+  $('.start').removeClass('ready');
+  viewController.set('editor');
+  //$('.textbox-container').style.display = 'block';
+  /*const textbox = document.getElementById('textbox');
+  $(this).text(transcriptionText);
+  $(this).forceUpdate();*/
+  setEditorContents(transcriptionText);
 }
 
 function getNonSilentIntervals(){
@@ -210,4 +224,11 @@ function convertTimestampToSeconds(hms) {
     return (+a[0]) * 60 + (+a[1]);
 }
 
-export {activateTimestamps, insertTimestamp, convertTimestampToSeconds, formatMilliseconds, insertTimestampIntervals};
+export {
+  activateTimestamps,
+  insertTimestamp,
+  convertTimestampToSeconds,
+  formatMilliseconds,
+  insertTimestampIntervals,
+  setGoogleTranscription
+};

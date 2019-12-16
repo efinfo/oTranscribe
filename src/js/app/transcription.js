@@ -28,6 +28,6 @@ function getFilesInBucket(){
     //return videos;
   }).catch( err => console.log(err));
   //console.log(videos);
-
 }
+
 export {getFilesInBucket, transcribeVideoAudio};
