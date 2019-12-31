@@ -1,5 +1,10 @@
+import ReactDOMServer from "react-dom/server";
+
 import {getPlayer} from './player/player';
-import {showSubtitle} from './subtitle.jsx';
+import viewController from './view-controller';
+import {setEditorContents} from './texteditor';
+import {Timestamp} from './timestamps';
+
 const $ = require('jquery');
 const localStorageManager = require('local-storage-manager');
 const axios = require('axios');
@@ -30,4 +35,40 @@ function getFilesInBucket(){
   //console.log(videos);
 }
 
-export {getFilesInBucket, transcribeVideoAudio};
+// It assumes that transcription is in the local storage (getTranscriptions)
+function setGoogleTranscription(){
+  let transcriptions = getTranscriptions();
+  $('.start').removeClass('ready');
+  viewController.set('editor');
+  //$('.textbox-container').style.display = 'block';
+  /*const textbox = document.getElementById('textbox');
+  $(this).text(transcriptionText);
+  $(this).forceUpdate();*/
+  let text = '';
+
+  for (let current of transcriptions){
+    let tsBegin = current.timestamp_begin;
+    let tsEnd = current.timestamp_end;
+
+    let b = ReactDOMServer.renderToString(<Timestamp tm={tsBegin} />);
+    let e = ReactDOMServer.renderToString(<Timestamp tm={tsEnd} />);
+    console.log(b);
+    let header = `<p>${b} - ${e} Interlocutor</p>`;
+    console.log(header);
+    let t = current.transcription;
+    text = text + header + "</br>" + t;
+  }
+
+  setEditorContents(text);
+}
+
+function getTranscriptions(){
+  let transcriptions = (localStorageManager.getItem('transcriptions'));
+  return transcriptions;
+}
+
+export {
+  getFilesInBucket,
+  transcribeVideoAudio,
+  setGoogleTranscription
+};

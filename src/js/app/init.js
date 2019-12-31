@@ -15,9 +15,9 @@ import {
   activateTimestamps,
   insertTimestamp,
   convertTimestampToSeconds,
-  insertTimestampIntervals,
-  setGoogleTranscription
+  insertTimestampIntervals
 } from './timestamps';
+import {setGoogleTranscription} from './transcription';
 import { initBackup } from './backup';
 import { exportSetup } from './export';
 import importSetup from './import';

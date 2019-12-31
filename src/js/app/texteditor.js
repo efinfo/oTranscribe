@@ -14,7 +14,7 @@ function countTextbox(){
     var textboxElement = document.getElementById('textbox');
     var textboxText = textboxElement.innerText || textboxElement.textContent;
     var count = countWords(textboxText);
-      
+
     var wordcountText = document.webL10n.get('wordcount', {n: count});
     wordcountText = wordcountText.replace(/(\d+)/, (n) => {
         return `<span class="word-count-number">${n}</span>`;
@@ -27,7 +27,7 @@ function initWordCount(){
     setInterval(function(){
         countTextbox();
     }, 1000);
-    
+
 }
 
 
@@ -36,7 +36,7 @@ function watchFormatting(){
     var bi = document.getElementById("icon-b");
     var i = document.queryCommandState("italic");
     var ii = document.getElementById("icon-i");
-    
+
     if (b === true){
         bi.className = "fa fa-bold active"
     } else {
@@ -56,28 +56,28 @@ function initWatchFormatting(){
 }
 
 function setEditorContents( dirtyText, opts = {} ) {
-    
+
     const newText = cleanHTML(dirtyText);
 
     var $textbox = $("#textbox");
-    
+
     function replaceText() {
         if (typeof newText === 'string') {
             $textbox[0].innerHTML = newText;
         } else {
             textbox[0].innerHTML = '';
-            $textbox[0].appendChild(newText);    
+            $textbox[0].appendChild(newText);
         }
         activateTimestamps();
         $('.textbox-container').scrollTop(0);
     }
-    
+
     if (opts.transition) {
         $textbox.fadeOut(300,function(){
             replaceText();
             $(this).fadeIn(300);
-        });        
-    } else {
+        });
+    }  else {
         replaceText();
     }
 
