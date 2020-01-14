@@ -71,9 +71,17 @@ Translations have been provided by the following talented and generous volunteer
 *   Russian: [Pavel Osminin](http://www.proz.com/profile/1783004)
 *   Spanish: [Cristian Duque](https://github.com/crskkk), [Dr J Rogel-Salazar](http://quantumtunnel.wordpress.com) and [Adrián Blanco](https://twitter.com/AdrianBlancoR).
 *   Swedish: c3ons.
-*   Turkish: Mehmet S. DERİNDERE. 
+*   Turkish: Mehmet S. DERİNDERE.
 *   Ukrainian: [Myroslav Opyr](https://github.com/myroslav)
 *   Vietnamese: [Trần Ngọc Quân](https://github.com/vnwildman)
 *   Greek: [Konstantinos Alexiou](http://konalexiou.net)
 
 More about translating oTranscribe [here](https://github.com/oTranscribe/oTranscribe/wiki/Help-translate-oTranscribe).
+
+
+## EFINFO transcriptor
+
+### Métodos
+1. Importación de archivos digitales de video/audio al bucket Google Cloud Storage
+2. Transcripción hecha por google speech to text para archivos grandes
+3. Transcripción de videos cortos procesamiento local

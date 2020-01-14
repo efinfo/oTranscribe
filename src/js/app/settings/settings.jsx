@@ -56,5 +56,5 @@ class Settings extends Component {
 }
 
 export function showSettings(el) {
-    render(<Settings />, el);    
+    render(<Settings />, el);
 }

@@ -1,4 +1,6 @@
 import {showSettings} from './settings/settings.jsx';
+import {showVideos} from './google-bucket/gb-list.jsx';
+
 const $ = (sel) => document.querySelector(sel);
 
 let currentView = 'about';
@@ -16,6 +18,11 @@ const views = {
         $('.settings-panel').classList.add('active');
         $('.settings-panel').innerHTML = '';
         showSettings($('.settings-panel'));
+    },
+    googleBucket: () => {
+      console.log("googleBucket");
+      $('.google-bucket-container').style.display = 'block';
+      showVideos($('.google-bucket-container'));
     }
 }
 
@@ -25,11 +32,12 @@ const hideAllViews = () => {
     $('.settings-button').classList.remove('active');
     $('.settings-panel').classList.remove('active');
     $('.textbox-container').style.display = 'none';
+    $('.google-bucket-container').style.display = 'none';
 }
 
 const validate = (name) => {
     if ((name in views) === false) {
-        throw(name + ' is not a valid view');   
+        throw(name + ' is not a valid view');
     }
 }
 
@@ -37,10 +45,10 @@ export default {
     get: () => currentView,
     set: (name) => {
         validate(name);
-        
+
         hideAllViews();
-        views[name]();    
-        
+        views[name]();
+
         currentView = name;
         return currentView;
     },

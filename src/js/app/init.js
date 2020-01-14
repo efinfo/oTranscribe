@@ -23,7 +23,7 @@ import { exportSetup } from './export';
 import importSetup from './import';
 import {uploadSetup} from './file-upload.jsx';
 import viewController from './view-controller';
-import {getFilesInBucket, transcribeVideoAudio} from './transcription';
+import {getFilesInBucket, transcribeVideoAudio, listFilesInBucket} from './transcription';
 
 export default function init(){
     initBackup();
@@ -42,6 +42,7 @@ export default function init(){
     window.getFilesInBucket = getFilesInBucket;
     window.transcribeVideoAudio = transcribeVideoAudio;
     window.setGoogleTranscription = setGoogleTranscription;
+    window.listFilesInBucket = listFilesInBucket;
 
     keyboardShortcutSetup();
 
@@ -110,7 +111,7 @@ function onLocalized() {
         },
         createFromURL: url => {
 		    createPlayer({
-		        driver: playerDrivers.YOUTUBE,
+		        driver: playerDrivers.HTML5_VIDEO,
 		        source: url
 		    }).then(() => {
                 bindPlayerToUI();
