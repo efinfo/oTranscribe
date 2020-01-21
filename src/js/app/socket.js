@@ -15,7 +15,7 @@ class Socket{
     this.socket = io(endpoint);
     return this;
   }
-  listen(event, cb){
+  listen(event, cb) {
     this.socket.on(event, cb);
   }
 
@@ -36,7 +36,6 @@ class Socket{
     this.listen('transcriptions', setTranscription);
   }
 
-
   splitInChunks(filename){
     this.socket.emit('split-in-chunks', {filename: filename});
     let transcribeChunks = () => {
@@ -44,6 +43,10 @@ class Socket{
       this.setTranscriptionChunks();
     }
     this.listen('chunks', transcribeChunks);
+  }
+
+  convertMpeg2Wav(filename){
+    this.socket.emit('convert-mpeg2wav', {filename: filename});
   }
 
   streamVideoAudio(file){
@@ -63,9 +66,10 @@ class Socket{
       console.log(percentage + '%');
       if(percentage == 100){
         console.log("Finished");
-        //this.getNonSilentIntervals(filename);
-        this.splitInChunks(filename);
-        //this.transcribeChunks();
+        // this.getNonSilentIntervals(filename);
+        // this.splitInChunks(filename);
+        // this.transcribeChunks();
+        this.convertMpeg2Wav(filename);
       }
       // -> e.g. '42%'
     });

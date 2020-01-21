@@ -5,6 +5,7 @@ import {
 } from 'preact';
 import ReactDOM from 'react-dom';
 import ReactDataGrid from 'react-data-grid';
+import {transcribeVideoAudio} from '../transcription';
 
 function getVideos() {
   let videos = [];
@@ -17,6 +18,11 @@ function getVideos() {
 
 function GBListRow(props) {
   let video = props.video;
+  let metadata = video.metadata;
+  let name = metadata.name;
+  let k = Math.pow(1024, 2);
+  let size = metadata.size / k;
+
   console.log("Row", video);
   return(
     <tr>
@@ -26,10 +32,12 @@ function GBListRow(props) {
     <label class="custom-control-label" for="customCheck1">1</label>
     </div>
     </td>
-    <td>{video.name}</td>
+    <td>{name}</td>
     <td>Cristina</td>
-    <td>913</td>
-    <td>2.846</td>
+    <td>{size}</td>
+    <td>
+    <button onClick={() => transcribeVideoAudio(name)}>Transcripción</button>
+    </td>
     </tr>
   );
 }
@@ -55,5 +63,5 @@ class GBList extends Component {
 }
 
 export function showVideos(el) {
-  render(<GBList />, el);
+  render(<GBList />, el, el.lastChild);
 }

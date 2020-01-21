@@ -65,12 +65,12 @@ function setGoogleTranscription(){
     let b = ReactDOMServer.renderToString(<Timestamp tm={tsBegin} />);
     let e = ReactDOMServer.renderToString(<Timestamp tm={tsEnd} />);
     console.log(b);
-    let header = `<p>${b} - ${e} Interlocutor</p>`;
+    let header = `<p>Interlocutor > ${b} - ${e}</p>`;
     console.log(header);
     let t = current.transcription;
     text = text + header + "</br>" + t;
   }
-
+  
   setEditorContents(text);
 }
 
