@@ -52,6 +52,7 @@ class Socket{
   streamVideoAudio(file){
     console.log("streaming video...", file);
     console.log("this.socket", this.socket);
+    var start = new Date();
     var filename = file.name;
     var stream = ss.createStream();
     console.log("Stream:", stream);
@@ -66,6 +67,8 @@ class Socket{
       console.log(percentage + '%');
       if(percentage == 100){
         console.log("Finished");
+        var end = new Date() - start;
+        console.info('Execution time: %ds', end/1000);
         // this.getNonSilentIntervals(filename);
         // this.splitInChunks(filename);
         // this.transcribeChunks();
