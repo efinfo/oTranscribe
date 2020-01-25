@@ -1,10 +1,11 @@
 const $ = require('jquery');
 import Socket from './socket';
+//Must be a singleton
+const socket = new Socket();
 
 export function inputSetup(opts) {
 
-    //Must be a singleton
-    var socket = new Socket();
+
     var input = new oTinput({
         element: '.file-input-outer',
         onFileChange: function(file){

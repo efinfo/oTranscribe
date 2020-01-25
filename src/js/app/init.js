@@ -17,13 +17,13 @@ import {
   convertTimestampToSeconds,
   insertTimestampIntervals
 } from './timestamps';
-import {setGoogleTranscription} from './transcription';
+
 import { initBackup } from './backup';
 import { exportSetup } from './export';
 import importSetup from './import';
 import {uploadSetup} from './file-upload.jsx';
 import viewController from './view-controller';
-import {getFilesInBucket, transcribeVideoAudio, listFilesInBucket} from './transcription';
+import {getFilesInBucket, transcribeVideoAudio, listFilesInBucket, setGoogleTranscription} from './transcription';
 
 export default function init(){
     initBackup();

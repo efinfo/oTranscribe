@@ -7,12 +7,15 @@ const SERVER_SOCKET = 'http://127.0.0.1:3000';
 
 class Socket{
   constructor(server){
+
     if(!!Socket.instance){
       return Socket.instance;
     }
     Socket.instance = this;
+
     let endpoint = server || SERVER_SOCKET;
     this.socket = io(endpoint);
+    console.info("Constuctor socket:", this.socket.id);
     return this;
   }
   listen(event, cb) {

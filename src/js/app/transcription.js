@@ -70,7 +70,7 @@ function setGoogleTranscription(){
     let t = current.transcription;
     text = text + header + "</br>" + t;
   }
-  
+
   setEditorContents(text);
 }
 
