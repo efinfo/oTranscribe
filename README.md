@@ -80,7 +80,12 @@ More about translating oTranscribe [here](https://github.com/oTranscribe/oTransc
 
 
 ## EFINFO transcriptor
+El sistema esta desarrollado con la arquitectura cliente servidor.
 
+### Instalación
+Requiere de los siguientes componentes:
+1. oTinput. (https://github.com/oTranscribe/oTinput)
+2. oTPlayer. (https://github.com/oTranscribe/oTplayer)
 ### Métodos
 1. Importación de archivos digitales de video/audio al bucket Google Cloud Storage
 2. Transcripción hecha por google speech to text para archivos grandes

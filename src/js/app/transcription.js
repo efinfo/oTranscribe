@@ -1,9 +1,11 @@
 import ReactDOMServer from "react-dom/server";
-
-import {getPlayer} from './player/player';
+import { createPlayer, playerDrivers, getPlayer, isVideoFormat } from './player/player';
+import { bindPlayerToUI, keyboardShortcutSetup} from './ui';
 import viewController from './view-controller';
 import {setEditorContents} from './texteditor';
 import {Timestamp} from './timestamps';
+import { inputSetup, getQueryParams, hide as inputHide } from './input';
+
 
 const $ = require('jquery');
 const localStorageManager = require('local-storage-manager');
@@ -19,7 +21,7 @@ import ReactDataGrid from 'react-data-grid';
 import React from 'react';
 import Socket from './socket';
 //Must be a singleton
-var socket = new Socket();
+const socket = new Socket();
 
 function transcribeVideoAudio(video){
   socket.googleTranscribeAsync(video);
@@ -48,10 +50,25 @@ function listFilesInBucket(){
   }).catch(err => console.log(err));
 }
 // It assumes that transcription is in the local storage (getTranscriptions)
-function setGoogleTranscription(){
+function setGoogleTranscription(video){
+  let metadata = video.metadata;
+  let name = metadata.name;
+  let url = `https://${video.storage.apiEndpoint}/${metadata.bucket}/${metadata.name}`;
+  console.log(url);
+
   let transcriptions = getTranscriptions();
   $('.start').removeClass('ready');
+
+  inputHide();
   viewController.set('editor');
+
+  createPlayer({
+    driver: playerDrivers.HTML5_VIDEO,
+    source: url
+  }).then(() => {
+    bindPlayerToUI();
+  });
+
   //$('.textbox-container').style.display = 'block';
   /*const textbox = document.getElementById('textbox');
   $(this).text(transcriptionText);

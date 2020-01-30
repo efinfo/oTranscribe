@@ -5,7 +5,7 @@ import {
 } from 'preact';
 import ReactDOM from 'react-dom';
 import ReactDataGrid from 'react-data-grid';
-import {transcribeVideoAudio} from '../transcription';
+import {transcribeVideoAudio, setGoogleTranscription} from '../transcription';
 
 function getVideos() {
   let videos = [];
@@ -22,10 +22,12 @@ function GBListRow(props) {
   let name = metadata.name;
   let k = Math.pow(1024, 2);
   let size = metadata.size / k;
+  //let url = `https://${video.storage.endpoint}/${metadata.bucket}/${metadata.name}`;
 
   console.log("Row", video);
+
   return(
-    <tr>
+    <tr style="padding: 5px">
     <td>
     <div class="custom-control custom-checkbox">
     <input type="checkbox" class="custom-control-input" id="customCheck1" checked />
@@ -33,10 +35,13 @@ function GBListRow(props) {
     </div>
     </td>
     <td>{name}</td>
-    <td>Cristina</td>
+    <td>Cliente</td>
     <td>{size}</td>
     <td>
     <button onClick={() => transcribeVideoAudio(name)}>Transcripción</button>
+    </td>
+    <td>
+    <button onClick={() => setGoogleTranscription(video)}>Muestra</button>
     </td>
     </tr>
   );

@@ -9,13 +9,17 @@ class Socket{
   constructor(server){
 
     if(!!Socket.instance){
+      console.log("Socket exists!", Socket.instance);
       return Socket.instance;
     }
     Socket.instance = this;
 
     let endpoint = server || SERVER_SOCKET;
     this.socket = io(endpoint);
-    console.info("Constuctor socket:", this.socket.id);
+    this.socket.on('connect', () => {
+      console.info("Constuctor socket:", this.socket.id);
+    });
+
     return this;
   }
   listen(event, cb) {
