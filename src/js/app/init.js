@@ -23,7 +23,13 @@ import { exportSetup } from './export';
 import importSetup from './import';
 import {uploadSetup} from './file-upload.jsx';
 import viewController from './view-controller';
-import {getFilesInBucket, transcribeVideoAudio, listFilesInBucket, setGoogleTranscription} from './transcription';
+import {
+  getFilesInBucket,
+  transcribeVideoAudio,
+  listFilesInBucket,
+  setGoogleTranscription,
+  listFilesInWavFolder
+} from './transcription';
 
 export default function init(){
     initBackup();
@@ -43,6 +49,7 @@ export default function init(){
     window.transcribeVideoAudio = transcribeVideoAudio;
     window.setGoogleTranscription = setGoogleTranscription;
     window.listFilesInBucket = listFilesInBucket;
+    window.listFilesInWavFolder = listFilesInWavFolder;
 
     keyboardShortcutSetup();
 

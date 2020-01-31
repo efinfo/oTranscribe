@@ -1,6 +1,6 @@
 import {showSettings} from './settings/settings.jsx';
 import {showVideos} from './google-bucket/gb-list.jsx';
-
+import {showFiles} from './wav/wav-list.jsx'
 const $ = (sel) => document.querySelector(sel);
 
 let currentView = 'about';
@@ -23,7 +23,13 @@ const views = {
       console.log("googleBucket");
       $('.google-bucket-container').style.display = 'block';
       showVideos($('.google-bucket-container'));
+    },
+    wavFiles: () => {
+      console.log("wavFiles");
+      $('.wav-files-container').style.display = 'block';
+      showFiles($('.wav-files-container'));
     }
+
 }
 
 const hideAllViews = () => {

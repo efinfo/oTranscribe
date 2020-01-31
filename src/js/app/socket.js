@@ -7,11 +7,11 @@ const SERVER_SOCKET = 'http://127.0.0.1:3000';
 
 class Socket{
   constructor(server){
-
     if(!!Socket.instance){
       console.log("Socket exists!", Socket.instance);
       return Socket.instance;
     }
+    console.log("Not existing socket creating it...");
     Socket.instance = this;
 
     let endpoint = server || SERVER_SOCKET;

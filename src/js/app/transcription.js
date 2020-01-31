@@ -49,6 +49,19 @@ function listFilesInBucket(){
     viewController.set('googleBucket');
   }).catch(err => console.log(err));
 }
+
+function listFilesInWavFolder(){
+  console.log("listFilesInWavFolder");
+  axios.get('http://localhost:3000/api/v1/wav').then(res => {
+    console.log(res);
+    if(res.data.success){
+      localStorageManager.setItem('wavFiles', res.data.wavFiles);
+    }
+    $('.start').removeClass('ready');
+    viewController.set('wavFiles');
+  }).catch(err => console.log(err));
+}
+
 // It assumes that transcription is in the local storage (getTranscriptions)
 function setGoogleTranscription(video){
   let metadata = video.metadata;
@@ -100,5 +113,6 @@ export {
   getFilesInBucket,
   transcribeVideoAudio,
   setGoogleTranscription,
-  listFilesInBucket
+  listFilesInBucket,
+  listFilesInWavFolder
 };
