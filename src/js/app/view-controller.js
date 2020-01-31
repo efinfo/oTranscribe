@@ -39,6 +39,7 @@ const hideAllViews = () => {
     $('.settings-panel').classList.remove('active');
     $('.textbox-container').style.display = 'none';
     $('.google-bucket-container').style.display = 'none';
+    $('.wav-files-container').style.display = 'none';
 }
 
 const validate = (name) => {
